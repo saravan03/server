@@ -1,6 +1,6 @@
 const io = require("socket.io")(4001, {
     cors: {
-        origin: "http://localhost:4200",
+        origin: "https://doc-clone-client.web.app/",
         methods: ["GET", "POST"],
     },
 })
