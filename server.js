@@ -14,7 +14,14 @@ const socketIo = require('socket.io');
 const cors = require("cors");
 
 const app = express();
-
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            callback(null, true);
+        },
+        credentials: true,
+    })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 const server = http.createServer(app);
@@ -25,9 +32,7 @@ const io = socketIo(server, {
 });
 
 const PORT = process.env.PORT || 3000;
-app.use(
-    cors()
-);
+
 app.post('/login', (req, res) => {
     console.log(req.body)
     if (!req.body) {
