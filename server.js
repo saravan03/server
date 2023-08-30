@@ -91,6 +91,7 @@ io.on("connection", socket => {
         socket.broadcast.emit("recieve-changes", delta)
     });
     socket.on('disconnect', () => {
+        console.log(socket.username)
         const username = Array.from(onlineUsers).find(u => u === socket.username);
         if (username) {
             onlineUsers.delete(username);
