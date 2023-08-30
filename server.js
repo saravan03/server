@@ -94,10 +94,11 @@ io.on("connection", socket => {
         const username = Array.from(onlineUsers).find(u => u === socket.username);
         if (username) {
             onlineUsers.delete(username);
-            io.emit('onlineUsers', Array.from(onlineUsers));
+            io.emit('online-users', Array.from(onlineUsers));
         }
         console.log('A user disconnected', onlineUsers);
     });
+
 })
 
 server.listen(PORT, () => {
