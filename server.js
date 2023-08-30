@@ -82,7 +82,7 @@ io.on("connection", socket => {
         console.log('A user connected ', onlineUsers);
 
         onlineUsers.add(username);
-        io.emit('online-users', Array.from(onlineUsers));
+        socket.broadcast.emit('online-users', Array.from(onlineUsers));
     });
 
 
@@ -91,11 +91,23 @@ io.on("connection", socket => {
         socket.broadcast.emit("recieve-changes", delta)
     });
     socket.on('disconnect', () => {
+        console.log(socket)
         console.log(socket.username)
         const username = Array.from(onlineUsers).find(u => u === socket.username);
         if (username) {
             onlineUsers.delete(username);
-            io.emit('online-users', Array.from(onlineUsers));
+            socket.broadcast.emit('online-users', Array.from(onlineUsers));
+        }
+        console.log('A user disconnected', onlineUsers);
+    });
+    socket.on('disconnect-client', user => {
+        console.log(socket)
+        console.log(socket.username)
+        socket.disconnect(true);
+        const username = Array.from(onlineUsers).find(u => u === user);
+        if (username) {
+            onlineUsers.delete(username);
+            socket.broadcast.emit('online-users', Array.from(onlineUsers));
         }
         console.log('A user disconnected', onlineUsers);
     });
